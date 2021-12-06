@@ -11,12 +11,12 @@ uniform mat4 lightprojection;
 
 out vec4 position;
 out vec3 normal;
-smooth out vec4 lightposition;
+smooth out vec4 positionLS;
 
 void main(){
     gl_Position = projection * view * model * vec4( vertex_position, 1.0f );
     // forward the raw position and normal in the model coord to frag shader
     position = vec4(vertex_position, 1.0f );
     normal = vertex_normal;
-    lightposition = lightprojection * lightview * model * vec4(vertex_position,1.0f);
+    positionLS = lightprojection * lightview * model * vec4(vertex_position,1.0f);
 }

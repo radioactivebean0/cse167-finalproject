@@ -41,7 +41,7 @@ void Scene::init(void){
     material["turquoise"] -> shininess = 100.0f;
 
     material["floor"] = new Material;
-    material["floor"] -> ambient = vec4(0.05f,0.05f,0.05f, 1.0f);
+    material["floor"] -> ambient = vec4(0.14f,0.14f,0.14f, 1.0f);
     material["floor"] -> diffuse = vec4(0.3f,0.3f,0.3f,1.0f);
     material["floor"] -> specular = vec4(0.25f,0.25f,0.25f,1.0f);
     material["floor"] -> shininess = 100.0f;
@@ -64,10 +64,10 @@ void Scene::init(void){
     model["floor"] -> material = material["floor"];
 
     // Create a light palette
-    light["sun"] = new Light;
-    light["sun"] -> position = vec4(6.0f,4.0f,2.0f,0.0f);
-    light["sun"] -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
-    light["sun"] -> calculate();
+    light = new Light;
+    light -> position = vec4(6.0f,4.0f,2.0f,0.0f);
+    light -> color = 1.0f*vec4(1.0f,1.0f,1.0f,1.0f);
+    light -> calculate();
     
     // Build the scene graph
     node["table"] = new Node;

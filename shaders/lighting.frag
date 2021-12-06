@@ -2,7 +2,7 @@
 
 in vec4 position; // raw position in the model coord
 in vec3 normal;   // raw normal in the model coord
-smooth in vec4 lightposition; // position in light coord
+smooth in vec4 positionLS; // position in light coord
 
 uniform mat4 model; // from model coord to eye coord
 uniform mat4 view;      // from world coord to eye coord
@@ -17,11 +17,9 @@ uniform vec4 emision;
 uniform float shininess;
 
 // Light source parameters
-const int maximal_allowed_lights = 10;
 uniform bool enablelighting;
-uniform int nlights;
-uniform vec4 lightpositions[ maximal_allowed_lights ];
-uniform vec4 lightcolors[ maximal_allowed_lights ];
+uniform vec4 lightposition;
+uniform vec4 lightcolor;
 
 // shadowmap
 uniform sampler2D shadowMap;
@@ -37,7 +35,7 @@ vec4 compute_specular_part (vec4 specular, vec4 n, vec4 hj, float shiny){
 }
 float compute_shadow (vec3 lightVec){
     // get sampled depth from texture
-    vec3 l_pos = lightposition.xyz / lightposition.w;
+    vec3 l_pos = positionLS.xyz / positionLS.w;
     l_pos = l_pos * 0.5 + 0.5;
     float sampledDepth = texture(shadowMap, l_pos.xy).r;
     float currDepth = l_pos.z;
@@ -52,7 +50,7 @@ float compute_shadow (vec3 lightVec){
 }
 void main (void){
     /*
-    vec3 l_pos = lightposition.xyz / lightposition.w;
+    vec3 l_pos = positionLS.xyz / positionLS.w;
     l_pos = l_pos * 0.5 + 0.5;
     float sampledDepth = texture(shadowMap, l_pos.xy).r;
     fragColor = vec4(vec3(sampledDepth),1.0f);
@@ -63,7 +61,7 @@ void main (void){
     vec4 eyeModelPos = model*view*position; // put the model in eye coords
     vec3 v = normalize(eyeModelPos.w*vec3(0,0,0)-
                        1*vec3(eyeModelPos.x,eyeModelPos.y,eyeModelPos.z));
-    vec4 eyeLightPos = view*lightpositions[0]; // put the light in eye coords
+    vec4 eyeLightPos = view*lightposition; // put the light in eye coords
     vec3 lightVec = normalize(
         eyeModelPos.w*vec3(eyeLightPos.x,eyeLightPos.y,eyeLightPos.z)-
         eyeLightPos.w*vec3(eyeModelPos.x,eyeModelPos.y,eyeModelPos.z));
@@ -73,7 +71,7 @@ void main (void){
         temp += compute_specular_part(specular, N, 
                     vec4(normalize(v+lightVec),0),
                     shininess);
-        temp *= lightcolors[0];
+        temp *= lightcolor;
         sum += temp;
     }
     else {
@@ -82,7 +80,7 @@ void main (void){
         temp += (1.0f-inshadow)*compute_specular_part(specular, N, 
                     vec4(normalize(v+lightVec),0),
                     shininess);
-        temp *= lightcolors[0];
+        temp *= lightcolor;
         sum += temp;
     }
     fragColor = sum + emision;

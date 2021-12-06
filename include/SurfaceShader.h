@@ -29,13 +29,11 @@ struct SurfaceShader : Shader {
     
     // lights
     GLboolean enablelighting = GL_FALSE; // are we lighting at all (global).
-    GLint nlights = 0;               // number of lights used
-    std::vector<glm::vec4> lightpositions; // positions of lights
-    std::vector<glm::vec4> lightcolors; // colors of lights
+    glm::vec4 lightposition = glm::vec4(1.0f); // position of light
+    glm::vec4 lightcolor = glm::vec4(1.0f); // color of light
     GLuint enablelighting_loc;
-    GLuint nlights_loc;
-    GLuint lightpositions_loc;
-    GLuint lightcolors_loc;
+    GLuint lightposition_loc;
+    GLuint lightcolor_loc;
 
     GLuint sampler_loc;
 
@@ -53,11 +51,9 @@ struct SurfaceShader : Shader {
         emision_loc    = glGetUniformLocation( program, "emision" );
         shininess_loc  = glGetUniformLocation( program, "shininess" );
         enablelighting_loc = glGetUniformLocation( program, "enablelighting" );
-        nlights_loc = glGetUniformLocation( program, "nlights" );
-        lightpositions_loc = glGetUniformLocation( program, "lightpositions" );
-        lightcolors_loc = glGetUniformLocation( program, "lightcolors" );
+        lightposition_loc = glGetUniformLocation( program, "lightposition" );
+        lightcolor_loc = glGetUniformLocation( program, "lightcolor" );
         sampler_loc = glGetUniformLocation( program, "shadowMap" );
-        glUniform1i( sampler_loc, 0 );
     }
     void setUniforms(){
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, &view[0][0]);
@@ -71,9 +67,8 @@ struct SurfaceShader : Shader {
         glUniform4fv( emision_loc  , 1, &(material -> emision[0])  );
         glUniform1fv( shininess_loc, 1, &(material -> shininess)   );
         glUniform1i( enablelighting_loc, enablelighting );
-        glUniform1i( nlights_loc, nlights );
-        glUniform4fv( lightpositions_loc, GLsizei(nlights), &lightpositions[0][0] );
-        glUniform4fv( lightcolors_loc, GLsizei(nlights), &lightcolors[0][0] );
+        glUniform4fv( lightposition_loc, 1, &lightposition[0] );
+        glUniform4fv( lightcolor_loc, 1, &lightcolor[0] );
         glUniform1i( sampler_loc, 0);
     }
 };
