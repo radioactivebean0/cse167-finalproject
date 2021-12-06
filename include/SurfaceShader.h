@@ -29,11 +29,13 @@ struct SurfaceShader : Shader {
     
     // lights
     GLboolean enablelighting = GL_FALSE; // are we lighting at all (global).
+    GLboolean depthshade = GL_FALSE;
     glm::vec4 lightposition = glm::vec4(1.0f); // position of light
     glm::vec4 lightcolor = glm::vec4(1.0f); // color of light
     GLuint enablelighting_loc;
     GLuint lightposition_loc;
     GLuint lightcolor_loc;
+    GLuint depthshade_loc;
 
     GLuint sampler_loc;
 
@@ -54,6 +56,7 @@ struct SurfaceShader : Shader {
         lightposition_loc = glGetUniformLocation( program, "lightposition" );
         lightcolor_loc = glGetUniformLocation( program, "lightcolor" );
         sampler_loc = glGetUniformLocation( program, "shadowMap" );
+        depthshade_loc = glGetUniformLocation( program, "depthshade" );
     }
     void setUniforms(){
         glUniformMatrix4fv(view_loc, 1, GL_FALSE, &view[0][0]);
@@ -67,6 +70,7 @@ struct SurfaceShader : Shader {
         glUniform4fv( emision_loc  , 1, &(material -> emision[0])  );
         glUniform1fv( shininess_loc, 1, &(material -> shininess)   );
         glUniform1i( enablelighting_loc, enablelighting );
+        glUniform1i( depthshade_loc, depthshade );
         glUniform4fv( lightposition_loc, 1, &lightposition[0] );
         glUniform4fv( lightcolor_loc, 1, &lightcolor[0] );
         glUniform1i( sampler_loc, 0);

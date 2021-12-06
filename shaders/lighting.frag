@@ -20,6 +20,7 @@ uniform float shininess;
 uniform bool enablelighting;
 uniform vec4 lightposition;
 uniform vec4 lightcolor;
+uniform bool depthshade;
 
 // shadowmap
 uniform sampler2D shadowMap;
@@ -49,13 +50,14 @@ float compute_shadow (vec3 lightVec){
     }
 }
 void main (void){
-    /*
-    vec3 l_pos = positionLS.xyz / positionLS.w;
-    l_pos = l_pos * 0.5 + 0.5;
-    float sampledDepth = texture(shadowMap, l_pos.xy).r;
-    fragColor = vec4(vec3(sampledDepth),1.0f);
-    */
     
+    if(depthshade){
+        vec3 l_pos = positionLS.xyz / positionLS.w;
+        l_pos = l_pos * 0.5 + 0.5;
+        float sampledDepth = texture(shadowMap, l_pos.xy).r;
+        fragColor = vec4(vec3(sampledDepth),1.0f);
+        return;
+    }
     vec4 sum;
     vec4 N = vec4(normalize(inverse(transpose(mat3(model*view)))*normal),0); // normal in the eye coords
     vec4 eyeModelPos = model*view*position; // put the model in eye coords

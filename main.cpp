@@ -38,6 +38,7 @@ void printHelp(){
       press 'A'/'Z' to zoom.
       press 'R' to reset camera.
       press 'L' to toggle shadows.
+      press 'D' to shade on depth map.
     
       press Spacebar to generate images for hw3 submission.
     
@@ -130,12 +131,16 @@ void keyboard(unsigned char key, int x, int y){
             break;
         case 'l':
             scene.shader -> enablelighting = !(scene.shader -> enablelighting);
+            scene.shader -> depthshade = false;
             glutPostRedisplay();
             break;
         case ' ':
             hw3AutoScreenshots();
             glutPostRedisplay();
             break;
+        case 'd':
+            scene.shader -> depthshade = !(scene.shader -> depthshade);
+            scene.shader -> enablelighting = false;
         default:
             glutPostRedisplay();
             break;
