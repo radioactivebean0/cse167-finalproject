@@ -38,7 +38,7 @@ void printHelp(){
       press 'A'/'Z' to zoom.
       press 'R' to reset camera.
       press 'L' to toggle shadows.
-      press 'D' to shade on depth map.
+      press 'D' to shade based on depth map.
     
       press Spacebar to generate images for hw3 submission.
     
