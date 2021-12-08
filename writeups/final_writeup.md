@@ -4,6 +4,8 @@
 This writeup will be broken up into three main sections, one where I explain
 how shadow mapping works, one explaining implementation, and then one where I document the development and showcase results.
 
+[Showcase video](https://youtu.be/OsZ_bRDxQ8g)
+
 ## About Shadow Mapping
 Shadow mapping is a technique in rasterization that uses two passes of rendering to create the effect of shadows.
 The first pass the rasterizer renders the scene from the point of view of the light. It stores the depth information
@@ -208,6 +210,5 @@ to 2048x2048.
 
 ![image](../images/high_res_texture.png)
 
-This solution is an easy fix for the problem. However implementing LiSPM is much more resource
-efficient and gives better results.
-
+This helps make the pixelation less noticable. However implementing PSM or LiSPSM
+would be the better solution and will give smoother outlines for the same resolution texture.
