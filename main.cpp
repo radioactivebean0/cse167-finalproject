@@ -23,7 +23,7 @@ static const glm::vec4 background(0.1f, 0.2f, 0.3f, 1.0f);
 static Scene scene;
 
 static GLuint depthMapFBO;
-static const GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+static const GLuint SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 static GLuint depthMap;
 
 #include "hw3AutoScreenshots.h"
